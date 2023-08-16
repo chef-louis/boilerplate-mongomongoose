@@ -24,10 +24,32 @@ const personSchema = new mongoose.Schema({
 let Person = mongoose.model('Person', personSchema);
 
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  let westie = new Person({
+    name: 'Westie',
+    age: 44,
+    favoriteFoods: ['Guacamole', 'Honey'],
+    email: 'westie-email@gmail.com'
+  });
+
+  westie.save(function(err, data) {
+    if (err) {
+      console.error(err);
+    }
+    done(null, data);
+  });
 };
 
+let arrayOfPeople = [
+  {name: 'Southie', age: 22, favoriteFoods: ['Peach', 'Cashew'], email: 'south@gmail.com'},
+  {name: 'Northie', age: 33, favoriteFoods: ['Banana', 'Apple'], email: 'north@gmail.com'},
+  {name: 'Eastie', age: 55, favoriteFoods: ['Grape', 'Plum'], email: 'east@gmail.com'}
+];
+
 const createManyPeople = (arrayOfPeople, done) => {
+  Person.create(arrayOfPeople, function(err, data) {
+    if (err) return console.log(err);
+    done(null, data);
+  });
   done(null /*, data*/);
 };
 
