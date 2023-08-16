@@ -9,43 +9,34 @@ const personSchema = new mongoose.Schema({
     required: true
   },
   age: Number,
-  favoriteFoods: [String],
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    validate: (value) => {
-      return validator.isEmail(value);
-    }
-  }
+  favoriteFoods: [String]
 });
 
 let Person = mongoose.model('Person', personSchema);
 
 const createAndSavePerson = (done) => {
-  let westie = new Person({
-    name: 'Westie',
+  let west = new Person({
+    name: 'West',
     age: 44,
-    favoriteFoods: ['Guacamole', 'Honey'],
-    email: 'westie-email@gmail.com'
+    favoriteFoods: ['Guacamole', 'Honey']
   });
 
-  westie.save(function(err, data) {
+  west.save(function(err, data) {
     if (err) {
       console.error(err);
     }
     done(null, data);
   });
 };
+// createAndSavePerson(console.log);
 
 let arrayOfPeople = [
-  {name: 'Southie', age: 22, favoriteFoods: ['Peach', 'Cashew'], email: 'south@gmail.com'},
-  {name: 'Northie', age: 33, favoriteFoods: ['Banana', 'Apple'], email: 'north@gmail.com'},
-  {name: 'Eastie', age: 55, favoriteFoods: ['Grape', 'Plum'], email: 'east@gmail.com'}
+  {name: 'South', age: 22, favoriteFoods: ['Peach', 'Cashew'], email: 'south@gmail.com'},
+  {name: 'North', age: 33, favoriteFoods: ['Banana', 'Apple'], email: 'north@gmail.com'},
+  {name: 'East', age: 55, favoriteFoods: ['Grape', 'Plum'], email: 'east@gmail.com'}
 ];
 
-const createManyPeople = (arrayOfPeople, done) => {
+const createManyPeople = function(arrayOfPeople, done) {
   Person.create(arrayOfPeople, function(err, data) {
     if (err) return console.log(err);
     done(null, data);
@@ -54,8 +45,21 @@ const createManyPeople = (arrayOfPeople, done) => {
 };
 
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  Person.find({name: personName}, function(err, personFound) {
+    if (err) return console.log(err);
+    done(null, personFound);
+  });
 };
+
+// Person.find({
+//   name: 'West' // search query
+// })
+//   .then((doc) => {
+//     console.log(doc);
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//   });
 
 const findOneByFood = (food, done) => {
   done(null /*, data*/);
